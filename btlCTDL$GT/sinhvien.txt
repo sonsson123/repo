@@ -1,0 +1,30 @@
+SV004
+Nguyen Van A
+2002 8.5
+SV002
+Le Thi B
+2001 7.8
+SV007
+Tran Van C
+2003 6.9
+SV001
+Pham Van D
+2000 9.2
+SV005
+Hoang Thi E
+2002 5.5
+SV006
+Nguyen Van F
+2001 7.0
+SV003
+Tran Thi G
+2003 8.1
+SV008
+Le Van H
+2002 6.7
+SV009
+Bui Van I
+2000 9.0
+SV010
+Vu Thi J
+2001 7.5
