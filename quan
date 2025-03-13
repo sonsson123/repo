@@ -1,0 +1,243 @@
+#include <iostream>
+using namespace std;
+
+
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+    }
+};
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    
+    LinkedList() {
+        head = nullptr;
+    }
+
+  
+    void insertAtHead(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+    }
+
+   
+    void insertAtTail(int value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+            head = newNode;
+            return;
+        }
+        Node* temp = head;
+        while (temp->next) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+
+    
+    void insertAtPosition(int value, int position) {
+        if (position < 1) {
+            cout << "Vi tri khong hop le!\n";
+            return;
+        }
+
+        if (position == 1) {
+            insertAtHead(value);
+            return;
+        }
+
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        for (int i = 1; i < position - 1 && temp; i++) {
+            temp = temp->next;
+        }
+
+        if (!temp) {
+            cout << "Vi tri vuot qua chieu dai danh sach!\n";
+            return;
+        }
+
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+
+  
+    void deleteByValue(int value) {
+        if (!head) return;
+
+        if (head->data == value) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            return;
+        }
+
+        Node* temp = head;
+        while (temp->next && temp->next->data != value) {
+            temp = temp->next;
+        }
+
+        if (!temp->next) return;
+
+        Node* nodeToDelete = temp->next;
+        temp->next = temp->next->next;
+        delete nodeToDelete;
+    }
+
+  
+    void deleteByPosition(int position) {
+        if (!head || position < 1) return;
+
+        if (position == 1) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            return;
+        }
+
+        Node* temp = head;
+        for (int i = 1; i < position - 1 && temp; i++) {
+            temp = temp->next;
+        }
+
+        if (!temp || !temp->next) return;
+
+        Node* nodeToDelete = temp->next;
+        temp->next = temp->next->next;
+        delete nodeToDelete;
+    }
+
+    
+    void reverseList() {
+        Node* prev = nullptr;
+        Node* current = head;
+        Node* next = nullptr;
+
+        while (current) {
+            next = current->next;
+            current->next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
+    }
+
+   
+    bool search(int value) {
+        Node* temp = head;
+        while (temp) {
+            if (temp->data == value) return true;
+            temp = temp->next;
+        }
+        return false;
+    }
+
+    
+    void sortList() {
+        if (!head) return;
+        bool swapped;
+        Node* ptr1;
+        Node* lptr = nullptr;
+
+        do {
+swapped = false;
+            ptr1 = head;
+
+            while (ptr1->next != lptr) {
+                if (ptr1->data > ptr1->next->data) {
+                    swap(ptr1->data, ptr1->next->data);
+                    swapped = true;
+                }
+                ptr1 = ptr1->next;
+            }
+            lptr = ptr1;
+        } while (swapped);
+    }
+
+    
+    void removeDuplicates() {
+        Node* temp = head;
+        while (temp && temp->next) {
+            if (temp->data == temp->next->data) {
+                Node* duplicate = temp->next;
+                temp->next = temp->next->next;
+                delete duplicate;
+            } else {
+                temp = temp->next;
+            }
+        }
+    }
+
+   
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
+
+    
+    ~LinkedList() {
+        Node* temp;
+        while (head) {
+            temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+};
+
+
+int main() {
+    LinkedList list;
+
+    list.insertAtHead(10);
+    list.insertAtHead(20);
+    list.insertAtTail(30);
+    list.insertAtTail(40);
+    list.insertAtPosition(25, 3);
+
+    cout << "Danh sach lien ket ban dau: ";
+    list.display();
+
+    list.deleteByValue(20);
+    cout << "Sau khi xoa 20: ";
+    list.display();
+
+    list.deleteByPosition(3);
+    cout << "Sau khi xoa phan tu o vi tri 3: ";
+    list.display();
+
+    list.reverseList();
+    cout << "Sau khi dao nguoc danh sach: ";
+    list.display();
+
+    list.insertAtTail(25);
+    list.insertAtTail(25);
+    list.insertAtTail(50);
+    cout << "Danh sach truoc khi loai bo phan tu trung lap: ";
+    list.display();
+    
+    list.removeDuplicates();
+    cout << "Sau khi loai bo phan tu trung lap: ";
+    list.display();
+
+    list.sortList();
+    cout << "Sau khi sap xep danh sach: ";
+    list.display();
+
+    cout << "Tim kiem 30: " << (list.search(30) ? "Tim thay!" : "Khong tim thay!") << endl;
+
+    return 0;
+}
